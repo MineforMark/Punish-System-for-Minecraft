@@ -1,0 +1,360 @@
+# Cheating Skript #
+
+# By MineforMark #
+
+
+# Cheating Amount #
+on join:
+    if {cheatoffense::%uuid of player%} is not set:
+        set {cheatoffense::%uuid of player%} to 0
+    if {toxicityoffense::%uuid of player%} is not set:
+        set {toxicityoffense::%uuid of player%} to 0
+    if {discrimoffense::%uuid of player%} is not set:
+        set {discrimoffense::%uuid of player%} to 0
+    if {IBoffense::%uuid of player%} is not set:
+        set {IBoffense::%uuid of player%} to 0
+    if {ADoffense::%uuid of player%} is not set:
+        set {ADoffense::%uuid of player%} to 0
+    if {SDoffense::%uuid of player%} is not set:
+        set {SDoffense::%uuid of player%} to 0
+    if {IBuildoffense::%uuid of player%} is not set:
+        set {IBuildoffense::%uuid of player%} to 0
+    if {bugoffense::%uuid of {_target}%} is not set:
+        set {bugoffense::%uuid of {_target}%} to 0
+    if {spamoffense::%uuid of {_target}%} is not set:
+        set {spamoffense::%uuid of {_target}%} to 0
+
+# Punishments #
+on load:
+  set {cheatingpunishments::1} to "7d"
+  set {cheatingpunishments::2} to "14d"
+  set {cheatingpunishments::3} to "30d"
+  set {cheatingpunishments::4} to "90d"
+  set {toxicitypunishments::1} to "30m"
+  set {toxicitypunishments::2} to "60m"
+  set {toxicitypunishments::3} to "12h"
+  set {toxicitypunishments::4} to "3d"
+  set {discrimpunishments::1} to "7d"
+  set {discrimpunishments::2} to "14d"
+  set {discrimpunishments::3} to "30d"
+  set {discrimpunishments::4} to ""
+  set {bugpunishments::1} to "30m"
+  set {bugpunishments::2} to "1d"
+  set {bugpunishments::3} to "3d"
+  set {bugpunishments::4} to "7d"
+  set {IBpunishments::2} to "1h"
+  set {IBpunishments::3} to "6h"
+  set {IBpunishments::4} to "1d"
+  set {advertisingpunishments::1} to "6h"
+  set {advertisingpunishments::2} to "12h"
+  set {advertisingpunishments::3} to "1d"
+  set {advertisingpunishments::4} to "7d"
+  set {spampunishments::2} to "1h"
+  set {spampunishments::3} to "6h"
+  set {spampunishments::4} to "1d"
+  set {SDpunishments::1} to "6h"
+  set {SDpunishments::2} to "1d"
+  set {SDpunishments::3} to "7d"
+  set {SDpunishments::4} to "10y"
+  set {IBuildpunishments::1} to "10m"
+  set {IBuildpunishments::2} to "1h"
+  set {IBuildpunishments::3} to "6h"
+  set {IBuildpunishments::4} to "1d"
+
+command /punish <offline player> <text>:
+    aliases: /p
+    permission: staff.punish
+    permission message: &cYou are not that guy pal
+    trigger:
+        set {_target} to arg-1
+        set {_reason} to arg-2
+    # Cheating #
+        if {_reason} is "cheating":
+            # Get current offenses, default 0
+            set {_offenses} to {cheatoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {cheatoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {cheatingpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "tempban %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Toxicity #
+        if {_reason} is "toxicity":
+            # Get current offenses, default 0
+            set {_offenses} to {toxicityoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {toxicityoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {toxicitypunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "mute %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Discrimination #
+        if {_reason} is "discrimination":
+            # get the offense amount thing
+            set {_offenses} to {discrimoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {discrimoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {discrimpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "mute %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Bug Abuse #
+        if {_reason} is "bug abuse":
+            # get the offense amount thing
+            set {_offenses} to {bugoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {bugoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {bugpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "tempban %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Doxxing #
+        if {_reason} is "doxxing":
+            execute console command "tempban %{_target}% 10y Doxxing - Blacklisted"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Inappropriate Behavior #
+        if {_reason} is "inappropriate behavior":
+            # get the offense amount thing
+            set {_offenses} to {IBoffense::%uuid of {_target}%}
+            if {_offenses} is 0:
+                set {_offenses} to 1
+                set {IBoffense::%uuid of {_target}%} to 1
+                send "&cYou have been warned for inappropriate behavior" to {_target}
+                set {IBoffense::%uuid of {_target}%} to {_offenses}
+                stop
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {IBoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {IBpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "mute %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console     
+    # Advertising #
+        if {_reason} is "Advertising":
+            # get the offense amount thing
+            set {_offenses} to {ADoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {ADoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {advertisingpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "mute %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Spamming #
+        if {_reason} is "spamming":
+            # get the offense amount thing
+            set {_offenses} to {spamoffense::%uuid of {_target}%}
+            if {_offenses} is 0:
+                set {_offenses} to 1
+                set {spamoffense::%uuid of {_target}%} to 1
+                send "&cYou have been warned for spamming" to {_target}
+                set {spamoffense::%uuid of {_target}%} to {_offenses}
+                stop
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {spamoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {spampunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "mute %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console     
+    # Staff Disrespect #
+        if {_reason} is "staff disrespect":
+            # get the offense amount thing
+            set {_offenses} to {SDoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {SDoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {SDpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "mute %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+    # Inappropriate Build #
+        if {_reason} is "inappropriate build":
+            # get the offense amount thing
+            set {_offenses} to {IBuildoffense::%uuid of {_target}%}
+            if {_offenses} is not set:
+                set {_offenses} to 0
+            if {_offenses} >= 4:
+                set {_offenses} to 4
+            else:
+                add 1 to {_offenses}
+            set {IBuildoffense::%uuid of {_target}%} to {_offenses}
+            set {_length} to {IBuildpunishments::%{_offenses}%}
+            if {_length} is not set:
+                set {_length} to "10m" # in case this code is stupid and doesn't work
+            execute console command "tempban %{_target}% %{_length}% %{_reason}%"
+            send "&aPunished %{_target}% for %{_reason}%. Offense count: %{_offenses}%." to console
+
+
+# Wipe a Player's History #
+
+command /removealloffense <offline player>:
+  permission: staff.remove.admin
+  permission message: &l&4YOUR NOT HIM
+  trigger:
+    set {_removalplayer} to arg-1
+    set {cheatoffense::%uuid of {_removalplayer}%} to 0
+    set {toxicityoffense::%uuid of {_removalplayer}%} to 0
+    set {discrimoffense::%uuid of {_removalplayer}%} to 0
+    set {bugoffense::%uuid of {_removalplayer}%} to 0
+    set {IBoffense::%uuid of {_removalplayer}%} to 0
+    set {ADoffense::%uuid of {_removalplayer}%} to 0
+    set {spamoffense::%uuid of {_removalplayer}%} to 0
+    set {SDoffense::%uuid of {_removalplayer}%} to 0
+    set {IBuildoffense::%uuid of {_removalplayer}%} to 0
+    send "%{_removalplayer}% has been wiped of their past" to player
+
+
+# ClearChat Code #
+
+command /clearchat:
+  aliases: /cc
+  permission: staff.clearchat
+  permission message: "What are you looking for?"
+  trigger:
+    loop 300 times:
+      broadcast " "
+    wait 0.1 second
+    send "&c&lChat Has Been Cleared!"
+
+#MuteChat Code #
+
+command /mutechat:
+    aliases: /mc
+    permission: staff.mutechat
+    permission message: "Why do you want silence???"
+    trigger:
+        if {muted} is "False":
+            set {muted} to "True"
+            broadcast "&1&lChat has been Muted!"
+        else:
+            set {muted} to "False"
+            broadcast "&1&lChat has been Unmuted!"
+
+on chat: 
+    if {muted} is "True":
+        if player does not have permission "mutechat.bypass":
+            send "Chat is currently Muted!" to player
+            cancel event
+
+# Little Fun Ban Hammer #
+
+on damage of player by player:
+    attacker is player
+    victim is player
+    if gamemode of attacker is creative:
+        if gamemode of victim is creative:
+            if name of attacker's tool is "Ban Hammer":
+                if attacker's tool is a mace:
+                    send "&cYou hit %victim% with the Ban Hammer!" to attacker
+                    send "&cYou were hit by the Ban Hammer!" to victim
+                    execute console command "ban %victim% 10m Ban Hammer Has Spoken!"
+
+# Remove individual offense #
+
+command /removeoffense <offline player> <text>:
+    permission: staff.remove
+    permission message: "{@pm}"
+    trigger:
+        set {_target} to arg-1
+        set {_reason} to arg-2
+        if arg-1 is not set:
+            send "Please specify a player" to player
+            stop
+        if arg-2 is not set:
+            send "Please specify a punishment type" to player
+        else:
+            if {_reason} is "cheating":
+                if {cheatoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {cheatoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "bug abuse":
+                if {bugoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {bugoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "spamming":
+                if {spamoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {spamoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "advertising":
+                if {ADoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {ADoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "inappropriate behavior":
+                if {IBoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {IBoffense::%uuid of {_target}%}
+                    send "You have removde 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "discrimination":
+                if {discrimoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {discrimoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "staff disrespect":
+                if {SDoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {SDoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "inappropriate build":
+                if {IBuildoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {IBuildoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
+            if {_reason} is "toxicity":
+                if {toxicityoffense::%uuid of {_target}%} is 0:
+                    send "They have no offenses of this type!" to player
+                else:
+                    subtract 1 from {toxicityoffense::%uuid of {_target}%}
+                    send "You have removed 1 %{_reason}% offense from this player!" to player
