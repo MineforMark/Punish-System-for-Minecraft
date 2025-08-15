@@ -25,12 +25,12 @@ By MineforMark
 - ![example5](https://files.catbox.moe/whwpem.png)
 
 ### Commands:
-- /punish <player> <reason>
+- /punish player reason
 - /p - shortened version of /punish
-- /pg <player> - opens punish GUI
-- /pgremove <player> - opens unpunish gui
-- /removealloffense <player> - removes every offense of a player
-- /removeoffense <player> <reason> - removes a specific offense of a certain player
+- /pg player - opens punish GUI
+- /pgremove player - opens unpunish gui
+- /removealloffense player - removes every offense of a player
+- /removeoffense player reason - removes a specific offense of a certain player
 
 ### Contributers:
 
