@@ -1,0 +1,188 @@
+# Punish GUI Skript #
+
+# Coded by MineforMark #
+# This complements the punish skript in the same github repository, it will not work on its own #
+
+# I like chicken wings #
+
+
+command /pg <offline player>:
+    permission: staff.punish
+    permission message: "&7You will be haunted forever :)"
+    trigger:
+        set {target} to arg-1
+        set {punishgui} to a new chest inventory with 6 rows with name "&4&lPunish GUI"
+        set slots 0, 1, 2, 3, 5, 6, 7, 8, 9, 18, 27, 36, 45, 26, 35, 44, 17, 44, 46, 47, 48, 49, 50, 51, 52 of {punishgui} to red stained glass pane with name " "
+        set slot 53 of {punishgui} to pink stained glass pane with name "&d&lRemove punish page!"
+        set slot 4 of {punishgui} to green stained glass pane with name "&2&lWelcome to the Punish GUI"
+        set slot 20 of {punishgui} to command block with name "&4&lCheating"
+        set {_cheating_item} to slot 20 of {punishgui}
+        set lore of {_cheating_item} to "Unfair Advantages for a Player"
+        set slot 20 of {punishgui} to {_cheating_item}
+        set slot 29 of {punishgui} to Oak sign with name "&cToxicity"
+        set {_toxicity_item} to slot 29 of {punishgui}
+        set lore of {_toxicity_item} to "When a player is overly mean to another player(s)"
+        set slot 29 of {punishgui} to {_toxicity_item}
+        set slot 30 of {punishgui} to crimson sign with name "&cDiscrimination"
+        set {_discrim_item} to slot 30 of {punishgui}
+        set lore of {_discrim_item} to "When a player is hating on a group of people"
+        set slot 30 of {punishgui} to {_discrim_item}
+        set slot 21 of {punishgui} to bedrock block with name "&cBug Abuse"
+        set {_bug_item} to slot 21 of {punishgui}
+        set lore of {_bug_item} to "Abusing a bug or exploit intentionally"
+        set slot 21 of {punishgui} to {_bug_item}
+        set slot 22 of {punishgui} to barrier block with name "&cDOXXING"
+        set {_doxxing_item} to slot 22 of {punishgui}
+        set lore of {_doxxing_item} to "Releasing Personal Info - Sr. Mod+"
+        set slot 22 of {punishgui} to {_doxxing_item}
+        set slot 31 of {punishgui} to dark oak Sign with name "&cInappropriate Behavior"
+        set {_IB_item} to slot 31 of {punishgui}
+        set lore of {_IB_item} to "Sexual or Inappropriate Comments"
+        set slot 31 of {punishgui} to {_IB_item}
+        set slot 23 of {punishgui} to end crystal with name "&cAdvertising"
+        set {_AD_item} to slot 23 of {punishgui}
+        set lore of {_AD_item} to "Advertising links - Medias are allowed to"
+        set slot 23 of {punishgui} to {_AD_item}
+        set slot 32 of {punishgui} to warped sign with name "&cSpamming"
+        set {_spam_item} to slot 32 of {punishgui}
+        set lore of {_spam_item} to "Flooding the chat or repeating messages"
+        set slot 32 of {punishgui} to {_spam_item}
+        set slot 33 of {punishgui} to cherry sign with name "&cStaff Disrespect"
+        set {_staff_item} to slot 33 of {punishgui}
+        set lore of {_staff_item} to "Disrespecting Staff Members"
+        set slot 33 of {punishgui} to {_staff_item}
+        set slot 24 of {punishgui} to tnt with name "&cInappropriate Build"
+        set {_IBuild_item} to slot 24 of {punishgui}
+        set lore of {_IBuild_item} to "Building Inappropriate Things"
+        set slot 24 of {punishgui} to {_IBuild_item}
+        open {punishgui} to player
+
+on inventory click:
+  if name of event-inventory is "&4&lPunish GUI":
+    CANCEL EVENT
+    if event-slot is 20:
+      execute console command "punish %{target}% Cheating"
+      close player's inventory
+    if event-slot is 21:
+      execute console command "punish %{target}% Bug Abuse"
+      close player's inventory
+    if event-slot is 22:
+      if player does not have permission "staff.blacklist":
+        send "You must be Sr.Mod+ to use this punishment"
+      else:
+        execute console command "punish %{target}% Doxxing"
+        close player's inventory
+    if event-slot is 29:
+      execute console command "punish %{target}% Toxicity"
+      close player's inventory
+    if event-slot is 30:
+      execute console command "punish %{target}% Discrimination"
+      close player's inventory
+    if event-slot is 31:
+      execute console command "punish %{target}% Inappropriate Behavior"
+      close player's inventory
+    if event-slot is 23:
+      execute console command "punish %{target}% Advertising"
+      close player's inventory
+    if event-slot is 32:
+      execute console command "punish %{target}% Spamming"
+      close player's inventory
+    if event-slot is 33:
+      execute console command "punish %{target}% Staff Disrespect"
+      close player's inventory
+    if event-slot is 24:
+      execute console command "punish %{target}% Inappropriate Build"
+      close player's inventory
+    if event-slot is 53:
+      close player's inventory
+      make player execute command "pgremove %{target}%"
+  if name of event-inventory is "&5&lUnPunish GUI":
+    CANCEL EVENT
+    if event-slot is 20:
+      make player execute command "removeoffense %{removedplayer}% Cheating"
+      close player's inventory
+    if event-slot is 21:
+      make player execute command "removeoffense %{removedplayer}% Bug Abuse"
+      close player's inventory
+    if event-slot is 22:
+      if player does not have permission "staff.remove.admin":
+        send "You must be Admin+ to remove this punishment"
+        close player's inventory
+      else:
+        make player execute command "removeoffense %{removedplayer}% Doxxing"
+        close player's inventory
+    if event-slot is 29:
+      make player execute command "removeoffense %{removedplayer}% Toxicity"
+      close player's inventory
+    if event-slot is 30:
+      make player execute command "removeoffense %{removedplayer}% Discrimination"
+      close player's inventory
+    if event-slot is 31:
+      make player execute command "removeoffense %{removedplayer}% Inappropriate Behavior"
+      close player's inventory
+    if event-slot is 23:
+      make player execute command "removeoffense %{removedplayer}% Advertising"
+      close player's inventory
+    if event-slot is 32:
+      make player execute command "removeoffense %{removedplayer}% Spamming"
+      close player's inventory
+    if event-slot is 33:
+      make player execute command "removeoffense %{removedplayer}% Staff Disrespect"
+      close player's inventory
+    if event-slot is 24:
+      make player execute command "removeoffense %{removedplayer}% Inappropriate Build"
+      close player's inventory
+    if event-slot is 45:
+      close player's inventory
+      make player execute command "pg %{removedplayer}%"
+
+command /pgremove <offline player>:
+    permission: staff.remove
+    permission message: "&7You will be haunted forever :)"
+    trigger:
+        set {removedplayer} to arg-1
+        set {unpunishgui} to a new chest inventory with 6 rows with name "&5&lUnPunish GUI"
+        set slots 0, 1, 2, 3, 5, 6, 7, 8, 9, 18, 27, 36, 45, 26, 35, 17, 44, 46, 47, 48, 49, 50, 51, 52, 53 of {unpunishgui} to red stained glass pane with name " "
+        set slot 45 of {unpunishgui} to pink stained glass pane with name "&d&lPunish page!"
+        set slot 4 of {unpunishgui} to green stained glass pane with name "&2&lWelcome to the UnPunish GUI"
+        set slot 20 of {unpunishgui} to command block with name "&4&lCheating"
+        set {_cheating_item} to slot 20 of {unpunishgui}
+        set lore of {_cheating_item} to "Unfair Advantages for a Player"
+        set slot 20 of {unpunishgui} to {_cheating_item}
+        set slot 29 of {unpunishgui} to Oak sign with name "&cToxicity"
+        set {_toxicity_item} to slot 29 of {unpunishgui}
+        set lore of {_toxicity_item} to "When a player is overly mean to another player(s)"
+        set slot 29 of {unpunishgui} to {_toxicity_item}
+        set slot 30 of {unpunishgui} to crimson sign with name "&cDiscrimination"
+        set {_discrim_item} to slot 30 of {unpunishgui}
+        set lore of {_discrim_item} to "When a player is hating on a group of people"
+        set slot 30 of {unpunishgui} to {_discrim_item}
+        set slot 21 of {unpunishgui} to bedrock block with name "&cBug Abuse"
+        set {_bug_item} to slot 21 of {unpunishgui}
+        set lore of {_bug_item} to "Abusing a bug or exploit intentionally"
+        set slot 21 of {unpunishgui} to {_bug_item}
+        set slot 22 of {unpunishgui} to barrier block with name "&cDOXXING"
+        set {_doxxing_item} to slot 22 of {unpunishgui}
+        set lore of {_doxxing_item} to "Releasing Personal Info - Sr. Mod+"
+        set slot 22 of {unpunishgui} to {_doxxing_item}
+        set slot 31 of {unpunishgui} to dark oak Sign with name "&cInappropriate Behavior"
+        set {_IB_item} to slot 31 of {unpunishgui}
+        set lore of {_IB_item} to "Sexual or Inappropriate Comments"
+        set slot 31 of {unpunishgui} to {_IB_item}
+        set slot 23 of {unpunishgui} to end crystal with name "&cAdvertising"
+        set {_AD_item} to slot 23 of {unpunishgui}
+        set lore of {_AD_item} to "Advertising links - Medias are allowed to"
+        set slot 23 of {unpunishgui} to {_AD_item}
+        set slot 32 of {unpunishgui} to warped sign with name "&cSpamming"
+        set {_spam_item} to slot 32 of {unpunishgui}
+        set lore of {_spam_item} to "Flooding the chat or repeating messages"
+        set slot 32 of {unpunishgui} to {_spam_item}
+        set slot 33 of {unpunishgui} to cherry sign with name "&cStaff Disrespect"
+        set {_staff_item} to slot 33 of {unpunishgui}
+        set lore of {_staff_item} to "Disrespecting Staff Members"
+        set slot 33 of {unpunishgui} to {_staff_item}
+        set slot 24 of {unpunishgui} to tnt with name "&cInappropriate Build"
+        set {_IBuild_item} to slot 24 of {unpunishgui}
+        set lore of {_IBuild_item} to "Building Inappropriate Things"
+        set slot 24 of {unpunishgui} to {_IBuild_item}
+        open {unpunishgui} to player
