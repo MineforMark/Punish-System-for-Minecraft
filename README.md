@@ -18,11 +18,11 @@ By MineforMark
 
 ### Examples:
 
-[example1](https://files.catbox.moe/pgp0jy.png)
-[example2](https://files.catbox.moe/hasypx.png)
-[example3](https://files.catbox.moe/6hjmi5.png)
-[example4](https://files.catbox.moe/lygt2e.png)
-[example5](https://files.catbox.moe/whwpem.png)
+![example1](https://files.catbox.moe/pgp0jy.png)
+![example2](https://files.catbox.moe/hasypx.png)
+![example3](https://files.catbox.moe/6hjmi5.png)
+![example4](https://files.catbox.moe/lygt2e.png)
+![example5](https://files.catbox.moe/whwpem.png)
 
 ### Commands:
 - /punish <player> <reason>
